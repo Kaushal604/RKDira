@@ -1,0 +1,56 @@
+plugins {
+  id "org.sonarqube" version "2.7.1"
+  id 'war'
+}
+apply plugin: 'war'
+apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+webAppDirName = 'WebContent'
+sourceCompatibility = "1.8"; 
+targetCompatibility = "1.8";
+
+repositories {
+maven {
+        url "https://jcenter.bintray.com"
+    }
+mavenCentral()
+
+google()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+		resources {
+            srcDirs = ['src']
+        }
+    }
+}
+
+dependencies {
+	implementation \
+		fileTree(dir: "${webAppDirName}/WEB-INF/lib", include: '*.jar'),
+		'commons-codec:commons-codec:1.6',
+		'commons-lang:commons-lang:2.5',
+		'com.hynnet:commons-lang3:3.3.2',
+		'org.apache.derby:derby:10.8.2.2',
+		'org.glassfish.jersey.core:jersey-server:2.27',
+		'org.glassfish.jersey.containers:jersey-container-servlet:2.27',
+		'org.glassfish.jersey.inject:jersey-hk2:2.27',
+		'log4j:log4j:1.2.16',
+		'org.apache.wink:wink-json4j:1.4',
+                'org.gradle:gradle-tooling-api:4.0-rc-2',
+                'org.slf4j:slf4j-api:1.7.12'
+	implementation \
+		'javax:javaee-api:7.0' 
+}
+
+war {
+	archiveName 'altoromutual.war'
+	exclude 'WEB-INF/classes/**/*.class'
+	exclude 'WEB-INF/lib/**/*.jar'
+}
